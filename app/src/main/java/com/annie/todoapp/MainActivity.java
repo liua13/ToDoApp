@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etItem;
     RecyclerView rvItems;
     ItemsAdapter itemsAdapter;
+    TextView totalItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         etItem = findViewById(R.id.etItem);
         rvItems = findViewById(R.id.rvItems);
+        totalItems = findViewById(R.id.totalItems);
 
         loadItems();
+
+        totalItems.setText(items.size() + " total items");
 
         ItemsAdapter.OnClickListener onClickListener = new ItemsAdapter.OnClickListener() {
             @Override
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveItems(){
         try {
             FileUtils.writeLines(getDataFile(), items);
+            totalItems.setText(items.size() + " total items");
         } catch (IOException e) {
             Log.e("MainActivity", "Error writing items", e);
         }
